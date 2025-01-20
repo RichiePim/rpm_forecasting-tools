@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "forecasting-tools"
-version = "0.2.7"
+version = "0.2.8"
 description = "AI forecasting and research tools to help humans reason about and forecast the future"
 authors = ["Benjamin Wilson <mokoresearch@gmail.com>"]
 license = "MIT"
@@ -40,6 +40,7 @@ pillow = "^11.0.0"
 transformers = "^4.44.1"
 typeguard = "^4.3.0"
 scikit-learn = "^1.5.2"
+asknews = "^0.7.58"
 
 [tool.poetry.group.dev.dependencies]
 pre-commit = "^4.0.1"
