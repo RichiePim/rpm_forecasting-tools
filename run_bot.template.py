@@ -21,6 +21,9 @@ from forecasting_tools.forecasting.forecast_bots.template_bot import (
 from forecasting_tools.forecasting.questions_and_reports.forecast_report import (
     ForecastReport,
 )
+from forecasting_tools.util.custom_logger import CustomLogger
+
+CustomLogger.setup_logging()
 
 logger = logging.getLogger(__name__)
 
@@ -72,14 +75,14 @@ if __name__ == "__main__":
         help="Skip previously forecasted questions",
     )
     parser.add_argument(
-        "--tournament-id",
+        "--tournament",
         type=int,
         required=True,
-        help="Tournament ID to forecast on",
+        help="Tournament to forecast on",
     )
     args = parser.parse_args()
 
     skip_previous = args.skip_previous
-    tournament_id = args.tournament_id
+    tournament_id = args.tournament
 
     asyncio.run(run_forecasts(skip_previous, tournament_id))

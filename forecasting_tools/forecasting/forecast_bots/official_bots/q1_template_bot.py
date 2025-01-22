@@ -64,17 +64,17 @@ class Q1TemplateBot(Q4TemplateBot):
                 question.question_text
             )
         elif os.getenv("EXA_API_KEY"):
-            research = await self.call_exa_smart_searcher(
+            research = await self._call_exa_smart_searcher(
                 question.question_text
             )
         elif os.getenv("PERPLEXITY_API_KEY"):
-            research = await self.call_perplexity(question.question_text)
+            research = await self._call_perplexity(question.question_text)
         else:
             raise ValueError("No API key provided")
         return research
 
     @classmethod
-    async def call_perplexity(cls, question: str) -> str:
+    async def _call_perplexity(cls, question: str) -> str:
         system_prompt = clean_indents(
             """
             You are an assistant to a superforecaster.
@@ -89,7 +89,7 @@ class Q1TemplateBot(Q4TemplateBot):
         return await model.invoke(question)
 
     @classmethod
-    async def call_exa_smart_searcher(cls, question: str) -> str:
+    async def _call_exa_smart_searcher(cls, question: str) -> str:
         if os.getenv("OPENAI_API_KEY") is None:
             searcher = ExaSearcher(
                 include_highlights=True,
@@ -217,19 +217,9 @@ class Q1TemplateBot(Q4TemplateBot):
     async def _run_forecast_on_numeric(
         self, question: NumericQuestion, research: str
     ) -> ReasonedPrediction[NumericDistribution]:
-        if question.open_upper_bound:
-            upper_bound_message = ""
-        else:
-            upper_bound_message = (
-                f"The outcome can not be higher than {question.upper_bound}."
-            )
-        if question.open_lower_bound:
-            lower_bound_message = ""
-        else:
-            lower_bound_message = (
-                f"The outcome can not be lower than {question.lower_bound}."
-            )
-
+        upper_bound_message, lower_bound_message = (
+            self._create_upper_and_lower_bound_messages(question)
+        )
         prompt = clean_indents(
             f"""
             You are a professional forecaster interviewing for a job.
@@ -286,6 +276,23 @@ class Q1TemplateBot(Q4TemplateBot):
         return ReasonedPrediction(
             prediction_value=prediction, reasoning=reasoning
         )
+
+    def _create_upper_and_lower_bound_messages(
+        self, question: NumericQuestion
+    ) -> tuple[str, str]:
+        if question.open_upper_bound:
+            upper_bound_message = ""
+        else:
+            upper_bound_message = (
+                f"The outcome can not be higher than {question.upper_bound}."
+            )
+        if question.open_lower_bound:
+            lower_bound_message = ""
+        else:
+            lower_bound_message = (
+                f"The outcome can not be lower than {question.lower_bound}."
+            )
+        return upper_bound_message, lower_bound_message
 
     def _extract_forecast_from_multiple_choice_rationale(
         self, reasoning: str, options: list[str]
