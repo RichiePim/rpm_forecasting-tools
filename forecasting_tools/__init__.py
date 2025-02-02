@@ -45,6 +45,9 @@ from forecasting_tools.forecasting.questions_and_reports.benchmark_for_bot impor
 from forecasting_tools.forecasting.questions_and_reports.binary_report import (
     BinaryReport as BinaryReport,
 )
+from forecasting_tools.forecasting.questions_and_reports.data_organizer import (
+    DataOrganizer as DataOrganizer,
+)
 from forecasting_tools.forecasting.questions_and_reports.forecast_report import (
     ForecastReport as ForecastReport,
 )
