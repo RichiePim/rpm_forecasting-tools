@@ -70,7 +70,7 @@ class Q1TemplateBot(Q4TemplateBot):
         elif os.getenv("PERPLEXITY_API_KEY"):
             research = await self._call_perplexity(question.question_text)
         else:
-            raise ValueError("No API key provided")
+            research = ""
         return research
 
     @classmethod
