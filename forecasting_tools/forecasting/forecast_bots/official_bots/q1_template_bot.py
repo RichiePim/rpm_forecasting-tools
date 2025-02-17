@@ -43,6 +43,7 @@ class Q1TemplateBot(Q4TemplateBot):
     The official bots on the leaderboard use AskNews in Q1.
     """
 
+    #The code below is where the final decision is made. TODO: Update to o3mini
     FINAL_DECISION_LLM = (
         Gpt4o(temperature=0.3)
         if os.getenv("OPENAI_API_KEY")
