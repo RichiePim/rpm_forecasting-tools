@@ -7,6 +7,7 @@ from forecasting_tools.ai_models.model_archetypes.openai_text_model import (
 
 logger = logging.getLogger(__name__)
 
+
 class O3Mini(OpenAiTextToTextModel):
     # See OpenAI Limit on the account dashboard for the most up-to-date limits.
     MODEL_NAME: Final[str] = "o3-mini"
