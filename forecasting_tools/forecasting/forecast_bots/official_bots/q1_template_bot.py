@@ -406,3 +406,4 @@ class Q1TemplateBot(Q4TemplateBot):
             lower_bound=question.lower_bound,
             zero_point=question.zero_point,
         )
+
